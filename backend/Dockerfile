@@ -15,7 +15,7 @@ WORKDIR /app/backend
 ADD . /app/backend
 
 RUN chmod g+w /app/backend
-RUN chmod g+w /app/backend/db.sqlite3
+
 # Using pip:
 RUN python3 -m pip install -r requirements.txt
 CMD python3 manage.py runserver 0.0.0.0:8000
