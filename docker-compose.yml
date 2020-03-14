@@ -6,7 +6,8 @@ services:
       POSTGRES_DB: "db"
       POSTGRES_HOST_AUTH_METHOD: "trust"
   backend:
-    build: ./backend
+    #build: ./backend
+    image: backend:latest
     volumes:
       - ./backend:/app/backend
     ports:
@@ -15,9 +16,11 @@ services:
     tty: true
     command: python3 manage.py runserver 0.0.0.0:8000
     depends_on:
+      - migration
       - db
   frontend:
-    build: ./frontend
+    #build: ./frontend
+    image: frontend:latest
     volumes:
       - ./frontend:/app
       # One-way volume to use node_modules from inside image
@@ -29,4 +32,11 @@ services:
     depends_on:
       - backend
     command: npm start
+  migration:
+    image: backend:latest
+    command: python manage.py migrate --noinput
+    depends_on:
+      - db
+  
+
       
